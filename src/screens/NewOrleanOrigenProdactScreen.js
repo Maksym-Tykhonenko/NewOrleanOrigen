@@ -413,7 +413,7 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
           alignItems: 'center',
           backgroundColor: '#191d24', // затемнення
         }}>
-        <ActivityIndicator size="large" color="#fbb802" />
+        <ActivityIndicator size="large" color="#40b8ff" />
       </View>
     );
   };
