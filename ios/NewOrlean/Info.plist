@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>4</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>scotiabank</string>
@@ -33,6 +33,17 @@
 		<string>tdct</string>
 		<string>blank</string>
 		<string>wise</string>
+		<string>bncmobile</string>
+		<string>connexion</string>
+		<string>skrill</string>
+		<string>nl.abnamro.deeplink.psd2.consent</string>
+		<string>nl-snsbank-sign</string>
+		<string>nl-asnbank-sign</string>
+		<string>triodosmobilebanking</string>
+		<string>nbc</string>
+		<string>nbc.ca</string>
+		<string>bncmobile</string>
+		<string>app.nbc.ca</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

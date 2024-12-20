@@ -14,7 +14,7 @@ import DeviceInfo from 'react-native-device-info';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
-  console.log('route==>', route.params);
+  //console.log('route==>', route.params);
   //const [responseToPushPermition, setResponseToPushPermition] = useState(
   //  route.params?.responseToPushPermition,
   //);
@@ -48,15 +48,30 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
   const refWebview = useRef(null);
 
   const customSchemes = [
+    'mailto:',
+    'itms-appss://',
+    'https://m.facebook.com/',
+    'https://www.facebook.com/',
+    'https://www.instagram.com/',
+    'https://twitter.com/',
+    'https://www.whatsapp.com/',
+    'https://t.me/',
+    'fb://',
+    'bncmobile://',
     'scotiabank',
     'bmoolbb',
     'cibcbanking',
-    'conexus',
+    'conexus://',
+    'connexion',
     'rbcmobile',
     'pcfbanking',
     'tdct',
     'blank',
     'wise',
+    'nbc.ca://',
+    'nbc://',
+    'bncmobile://',
+    'app.bnc.ca',
     'https://app.rastpay.com/payment/',
     'googlepay://',
     'applepay://',
@@ -191,7 +206,7 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
     (pid ? `&pid=${pid}` : '') +
     (!addPartToLinkOnce ? `&yhugh=true` : '');
 
-  console.log('My product Url==>', product);
+  //console.log('My product Url==>', product);
   //Alert.alert(product);
 
   //const customUserAgent = `Mozilla/5.0 (${deviceInfo.deviceSystemName}; ${deviceInfo.deviceModel}) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1`;
@@ -218,7 +233,7 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
 
   const handleNavigationStateChange = navState => {
     const {url} = navState;
-    console.log('NavigationState: ', navState);
+    //console.log('NavigationState: ', navState);
     //console.log('navState: ', navState);
     if (
       url.includes(
@@ -262,7 +277,7 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
 
   const onShouldStartLoadWithRequest = event => {
     const {url} = event;
-    console.log('onShouldStartLoadWithRequest========> ', event);
+    //console.log('onShouldStartLoadWithRequest========> ', event);
 
     if (url.startsWith('mailto:')) {
       Linking.openURL(url);
@@ -387,6 +402,7 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
   ////////////////////////////
   const [isLoading, setIsLoading] = useState(true); // Стан завантаження
   const [skipFirstLoadEnd, setSkipFirstLoadEnd] = useState(true); // Пропускаємо перший `loadingEnd`
+  const [isLoadingInOnError, setIsLoadingInOnError] = useState(false);
 
   const handleLoadingStart = () => {
     setIsLoading(true);
@@ -447,20 +463,24 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
         //}}
         onError={syntheticEvent => {
           const {nativeEvent} = syntheticEvent;
+          console.log('syntheticEvent', syntheticEvent);
+          console.log('nativeEvent', nativeEvent);
           //console.warn('WebView error: ', nativeEvent.code);
           if (nativeEvent.code === -1002) {
-            Alert.alert(
-              'The app is not installed on your device.',
-              'Please choose another method.',
-              [
-                {
-                  text: 'OK',
-                  onPress: () => {
-                    reloadPageBtn();
-                  }, // Виклик функції при натисканні "OK"
-                },
-              ],
-            );
+            //console.log('Error detected, showing loader');
+            //Linking.openURL(nativeEvent.url);
+            //Alert.alert(
+            //  'Please wait a few seconds, loading...',
+            //  //'Please choose another method.',
+            //  [
+            //    //{
+            //    //  text: 'OK',
+            //    //  onPress: () => {
+            //    //    reloadPageBtn();
+            //    //  }, // Виклик функції при натисканні "OK"
+            //    //},
+            //  ],
+            //);
           }
         }}
         textZoom={100}

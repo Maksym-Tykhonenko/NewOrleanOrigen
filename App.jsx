@@ -111,7 +111,7 @@ const App = () => {
         setIdfv(parsedData.idfv);
         setAdServicesAtribution(parsedData.adServicesAtribution);
         //setAdServicesKeywordId(parsedData.adServicesKeywordId);
-        //await performAppsFlyerOperationsContinuously();
+        await performAppsFlyerOperationsContinuously();
       } else {
         console.log('Даних немає в AsyncStorage');
         await fetchIdfa();
@@ -377,7 +377,7 @@ const App = () => {
               await fetchAdServicesAttributionData();
             const attribution = adServicesAttributionData?.attribution || 'asa'; // Якщо attribution немає, встановлюємо 'aca'
             setSab1(attribution); // Записуємо в стейт
-            // setSab1(attribution ? 'asa' : '');
+            // setSab1(attribution ? 'asa' : ''); 
           }
         } else {
           //console.log('This is not first launch');
