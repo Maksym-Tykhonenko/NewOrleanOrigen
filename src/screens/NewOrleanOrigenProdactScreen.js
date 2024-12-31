@@ -205,7 +205,7 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
     (pid ? `&pid=${pid}` : '') +
     (!addPartToLinkOnce ? `&yhugh=true` : '');
 
-  //console.log('My product Url==>', product);
+  console.log('My product Url==>', product);
   //Alert.alert(product);
 
   //const customUserAgent = `Mozilla/5.0 (${deviceInfo.deviceSystemName}; ${deviceInfo.deviceModel}) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1`;

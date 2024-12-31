@@ -240,6 +240,9 @@ const App = () => {
     fetchOneSignalId();
   }, []);
 
+  // event push_open_browser & push_open_webview
+    const pushOpenWebViewOnce = useRef(false); // Стан, щоб уникнути дублювання
+
   useEffect(() => {
   // Додаємо слухач подій
   const handleNotificationClick = event => {
