@@ -68,10 +68,6 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
     'tdct',
     'blank',
     'wise',
-    'nbc.ca://',
-    'nbc://',
-    'bncmobile://',
-    'app.bnc.ca',
     'https://app.rastpay.com/payment/',
     'googlepay://',
     'applepay://',
@@ -106,12 +102,10 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
 
   //**івент webview_open
   useEffect(() => {
-    setTimeout(() => {
-      fetch(
-        `${INITIAL_URL}${URL_IDENTIFAIRE}?utretg=webview_open&jthrhg=${timestamp_user_id}`,
-      );
-      //console.log('івент webview_open !!!');
-    }, 500);
+    fetch(
+      `${INITIAL_URL}${URL_IDENTIFAIRE}?utretg=webview_open&jthrhg=${timestamp_user_id}`,
+    );
+    //console.log('івент webview_open !!!');
   }, []);
   {
     /** 
@@ -362,6 +356,16 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
     } else if (url.includes('secure.livechatinc.com/customer/action/')) {
       //refWebview?.current?.goBack();
       return false;
+    } else if (url.startsWith('bncmobile://')) {
+      // Тут обробіть цей специфічний URL
+      console.log('Перехоплений URL:', url);
+      Alert.alert(`Wait a few seconds, the loading process is underway...`);
+      // Ви можете використати Linking для обробки
+      Linking.openURL(url).catch(err => {
+        //console.error('Помилка при відкритті URL:', err);
+      });
+
+      return false; // Забороняємо WebView завантажувати цей URL
     } else {
       const scheme = url.split(':')[0];
       if (customSchemes.includes(scheme)) {
@@ -461,28 +465,36 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
         //  console.log('nativeEvent', nativeEvent);
         //  console.log('targetUrl', targetUrl);
         //}}
-        onError={syntheticEvent => {
-          const {nativeEvent} = syntheticEvent;
-          console.log('syntheticEvent', syntheticEvent);
-          console.log('nativeEvent', nativeEvent);
-          //console.warn('WebView error: ', nativeEvent.code);
-          if (nativeEvent.code === -1002) {
-            //console.log('Error detected, showing loader');
-            //Linking.openURL(nativeEvent.url);
-            //Alert.alert(
-            //  'Please wait a few seconds, loading...',
-            //  //'Please choose another method.',
-            //  [
-            //    //{
-            //    //  text: 'OK',
-            //    //  onPress: () => {
-            //    //    reloadPageBtn();
-            //    //  }, // Виклик функції при натисканні "OK"
-            //    //},
-            //  ],
-            //);
-          }
-        }}
+        //onError={syntheticEvent => {
+        //  const {nativeEvent} = syntheticEvent;
+        //  //console.log('syntheticEvent', syntheticEvent);
+        //  console.log('nativeEvent', nativeEvent);
+        //  //console.warn('WebView error: ', nativeEvent.code);
+        //  if (
+        //    nativeEvent.code === -1002 ||
+        //    nativeEvent.url.startsWith('https://www.nbc.ca/redirects/interacMR')
+        //  ) {
+        //    //console.log('Error detected, showing loader');
+        //    Linking.openURL(
+        //      'https://connexion.bnc.ca/?SAMLRequest=fZJbTwIxEIX%2Fyqbve2lBgYbFEIkJiRrj7cG30h20ujutnRb031sWMfigD02ayfScM990evbRtdkGPBmLNeNFxTJAbRuDzzV7uL%2FIx%2BxsNiXVtcLJeQwveAvvEShkcyLwIT07t0ixA38HfmM0PNxe1uwlBEeyLHGlC%2FsWVKFtVxLZslcqK6uEU447XrXPr9fLsXAjli2SrEEV%2BigHBW0R4SOVihXqQiuWXVivoY9Ss7VqCVi2XNTMNIJPxhOxO6dixKsRF0N%2BMkiXYeogirBECgpDzUQlhjkXuaju%2BUCecDkcFNVk8sSyxwMKsUOR4CDJ%2FfQ1ix6lVWRIouqAZNDybn51KVOrdN4Gq23LvmHJ3tAfK%2FwvoA442eww%2Bna7PYLXg6M94zzZbUwDviTn9Opt%2FR7DZ1ToI8RuMy2PI%2Fxs7zp5Lhc3tjX6cwexU%2BHvSLzgfcU0%2BbpvlRHJgTZrAw0rZ98ev%2F%2FE7As%3D&RelayState=%252Foauth2%252Fv1%252Fauthorize%252Fredirect%253Fokta_key%253DcGMGEpMi6t1HsC-xJ_srq_qm_NXP3c7Fjz6S2LOZLOU&SigAlg=http%3A%2F%2Fwww.w3.org%2F2001%2F04%2Fxmldsig-more%23rsa-sha256&Signature=LUj%2FmqisTGOdCmK1JAMayexRPaY3gZ57o8iqishO9V0T1PBgVuU4YbYEoPlLBo7zjj68tp37HjxxC8R7s86Hqe4gfl%2Fpl4MBagkDQkSBYyeV%2FCkCTi8Q3PAd3xBkNb3oPmXKGpIs1ZSMrJBSTjTakaHO%2BrL5gxNYZchpByQU%2FINdSkT4sULvd1hb33P93KDTgvuwIYyeEmmi0x2IZKcHyxkYOhBrJjqj83yu22oYQuMSZjVSaZvN3WKLXN1PNyRPgInVFI2sXNCK3%2FTQ9zRNa4sq6wIqmwEliyX7g%2B%2BU2fmUBIXuJfmOPVWFAy2O84E6bR3JX8hkTFbVyV%2BNguY9Ag%3D%3D',
+        //    );
+        //    refWebview.current.injectJavaScript(
+        //      `window.location.href = '${redirectUrl}'`,
+        //    );
+        //    //Alert.alert(
+        //    //  'Please wait a few seconds, loading...',
+        //    //  //'Please choose another method.',
+        //    //  [
+        //    //    //{
+        //    //    //  text: 'OK',
+        //    //    //  onPress: () => {
+        //    //    //    reloadPageBtn();
+        //    //    //  }, // Виклик функції при натисканні "OK"
+        //    //    //},
+        //    //  ],
+        //    //);
+        //  }
+        //}}
         textZoom={100}
         allowsBackForwardNavigationGestures={true}
         domStorageEnabled={true}
