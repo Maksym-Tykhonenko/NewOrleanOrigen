@@ -240,33 +240,41 @@ const App = () => {
     fetchOneSignalId();
   }, []);
 
-  OneSignal.Notifications.addEventListener('click', event => {
+  useEffect(() => {
+  // Додаємо слухач подій
+  const handleNotificationClick = event => {
+    if (pushOpenWebViewOnce.current) {
+      // Уникаємо повторної відправки івента
+      return;
+    }
+
     if (event.notification.launchURL) {
       fetch(
         `${INITIAL_URL}${URL_IDENTIFAIRE}?utretg=push_open_browser&jthrhg=${timestamp_user_id}`,
       );
-      //fetch(
-      //  `${event.notification.launchURL}?utretg=push_open_browser&jthrhg=${timestamp_user_id}`,
-      //);
-      console.log('івент push_open_browser OneSignal');
+      console.log('Івент push_open_browser OneSignal');
     } else {
       fetch(
         `${INITIAL_URL}${URL_IDENTIFAIRE}?utretg=push_open_webview&jthrhg=${timestamp_user_id}`,
       );
-      setAddPartToLinkOnce(false);
-      console.log('iвент push_open_webview OneSignal');
-
-      // Єдиноразово додати до лінки product &yhugh=true
-
-      //fetch(
-      //  `${INITIAL_URL}${URL_IDENTIFAIRE}?utretg=webview_open&jthrhg=${timestamp_user_id}`,
-      //);
-      //console.log('івент webview_open OneSignal');
+      console.log('Івент push_open_webview OneSignal');
     }
-    //console.log('OneSignal: url:', event.notification.launchURL);
-    //console.log('OneSignal: event:', event);
-  });
 
+    pushOpenWebViewOnce.current = true; // Блокування повторного виконання
+    setTimeout(() => {
+      pushOpenWebViewOnce.current = false; // Зняття блокування через певний час
+    }, 2500); // Затримка, щоб уникнути подвійного кліку
+  };
+
+  OneSignal.Notifications.addEventListener('click', handleNotificationClick);
+
+  return () => {
+    // Видаляємо слухача подій при розмонтуванні
+    OneSignal.Notifications.removeEventListener('click', handleNotificationClick);
+  };
+}, []);
+
+  // 1ST FUNCTION - Повторна Ініціалізація AppsFlyer
   const performAppsFlyerOperationsContinuously = async () => {
     try {
       // 1. Ініціалізація SDK

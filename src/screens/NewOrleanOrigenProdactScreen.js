@@ -101,11 +101,16 @@ const NewOrleanOrigenProdactScreen = ({navigation, route}) => {
   }, []);
 
   //**івент webview_open
+  const hasWebViewOpenEventSent = useRef(false); // Використовуємо useRef для збереження стану між рендерами
+
   useEffect(() => {
-    fetch(
-      `${INITIAL_URL}${URL_IDENTIFAIRE}?utretg=webview_open&jthrhg=${timestamp_user_id}`,
-    );
-    //console.log('івент webview_open !!!');
+    if (!hasWebViewOpenEventSent.current) {
+      hasWebViewOpenEventSent.current = true; // Встановлюємо, що івент вже відправлений
+      fetch(
+        `${INITIAL_URL}${URL_IDENTIFAIRE}?utretg=webview_open&jthrhg=${timestamp_user_id}`,
+      );
+      console.log('Івент webview_open відправлено!');
+    }
   }, []);
   {
     /** 
