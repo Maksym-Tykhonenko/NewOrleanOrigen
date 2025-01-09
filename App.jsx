@@ -180,7 +180,7 @@ const App = () => {
 
       setAdServicesAtribution(attribution);
       //setAdServicesKeywordId(keywordId);
-      setSab1(attribution);
+      setSab1(attribution ? 'asa' : '');
       // Вывод значений в консоль
       //Alert.alert(`Attribution: ${attribution}`);
       //console.log(`Attribution: ${attribution}` + `KeywordId:${keywordId}`);
@@ -198,6 +198,14 @@ const App = () => {
           console.log('res', res);
           // зберігаємо в Стейт стан по відповіді на дозвіл на пуши і зберігаємо їх в АсСторідж
           setResponseToPushPermition(res);
+          OneSignal.User.getOnesignalId()
+            .then(deviceState => {
+              if (deviceState) {
+                setOneSignalId(deviceState); // Записуємо OneSignal ID
+              }
+            }).catch(error => {
+            console.error('Error fetching OneSignal ID:', error);
+        });
         });
 
         resolve(); // Викликаємо resolve(), оскільки OneSignal.Notifications.requestPermission не повертає проміс
@@ -384,10 +392,10 @@ const App = () => {
             setPid(pid);
           } else if (res.data.af_status === 'Organic') {
             // Викликаємо fetchAdServicesAttributionData і отримуємо attribution
-            const adServicesAttributionData =
+            //const adServicesAttributionData =
               await fetchAdServicesAttributionData();
-            const attribution = adServicesAttributionData?.attribution || 'asa'; // Якщо attribution немає, встановлюємо 'aca'
-            setSab1(attribution); // Записуємо в стейт
+            //const attribution = adServicesAttributionData?.attribution || 'asa'; // Якщо attribution немає, встановлюємо 'aca'
+            //setSab1(attribution); // Записуємо в стейт
             // setSab1(attribution ? 'asa' : ''); 
           }
         } else {
@@ -407,7 +415,7 @@ const App = () => {
         //console.log('setIdfa(res.id);');
       } else {
         //console.log('Ad tracking is limited');
-        setIdfa(false); //true
+        setIdfa('00000000-0000-0000-0000-000000000000'); //true
         //setIdfa(null);
         fetchIdfa();
         //Alert.alert('idfa', idfa);
@@ -424,7 +432,7 @@ const App = () => {
     const checkUrl = `${INITIAL_URL}${URL_IDENTIFAIRE}`;
     //console.log(checkUrl);
 
-    const targetData = new Date('2024-12-18T10:00:00'); //дата з якої поч працювати webView
+    const targetData = new Date('2025-01-12T10:00:00'); //дата з якої поч працювати webView
     const currentData = new Date(); //текущая дата
 
     if (!route) {
